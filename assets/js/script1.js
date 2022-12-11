@@ -1,0 +1,67 @@
+const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '402091000amshf52cc368eb36f29p1efd37jsn68f33b70e1b6',
+      'X-RapidAPI-Host': 'anime-db.p.rapidapi.com'
+    }
+  };
+  console.log('apaaaa')
+  
+  
+  let list_novels = document.querySelector('.histori')
+  fetch(`https://anime-db.p.rapidapi.com/anime?page=1&size=10&genres=Fantasy%2CDrama&sortBy=ranking&sortOrder=asc`, options)
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      tempat = ''
+      let isiComic =  response.data.slice(0,8)
+      isiComic.forEach(element => {
+        tempat+=`
+        <div class="gambar">
+        <a href='display.php?id=${element._id}'>
+          <img src="${element.image}" />
+          <p>${element.title}</p>
+          </a>
+        </div>
+        `
+      });
+      document.querySelector('.histori').innerHTML = tempat
+  
+    })
+    .catch(err => console.error(err));
+  
+  function cari(e) {
+      e.preventDefault()
+  
+      const key = document.getElementById('search').value
+      console.log(key)
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': '402091000amshf52cc368eb36f29p1efd37jsn68f33b70e1b6',
+          'X-RapidAPI-Host': 'anime-db.p.rapidapi.com'
+        }
+      };
+      
+      
+  let list_novels = document.querySelector('.histori')
+  fetch(`https://anime-db.p.rapidapi.com/anime?page=1&size=10&search=${key}&genres=Fantasy%2CDrama&sortBy=ranking&sortOrder=asc`, options)
+        .then(response => response.json())
+        .then(response => {
+          console.log(response)
+          tempat = ''
+          response.data.forEach(element => {
+            tempat+=`
+            <div class="gambar">
+            <a href='display.php?id=${element._id}'>
+              <img src="${element.image}" />
+              <p>${element.title}</p>
+            </a>
+            </div>
+            `
+          });
+          document.querySelector('.histori').innerHTML = tempat
+  
+        })
+        .catch(err => console.error(err));
+    }
